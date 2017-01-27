@@ -14,6 +14,7 @@ import {Router, Scene} from 'react-native-mobx';
 import SongsStore from './stores/songs-store';
 import App from './components/App';
 import Song from './components/Song';
+import SongForm from './components/SongForm';
 
 export default class JamOn extends Component {
   render() {
@@ -22,6 +23,7 @@ export default class JamOn extends Component {
         <Scene key="root">
           <Scene key="songs" component={App} title='JamOn' initial={true} hideNavBar />
           <Scene key="song" component={Song} title='Song' hideNavBar />
+          <Scene key="new_song" component={SongForm} title='New Song' hideNavBar />
         </Scene>
       </Router>
     );

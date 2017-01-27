@@ -4,7 +4,10 @@ import {
   ListView,
   Text,
   View,
+  TouchableOpacity,
 } from 'react-native';
+
+import {Actions} from 'react-native-mobx';
 
 import SongItem from './SongItem';
 
@@ -17,12 +20,19 @@ class Songs extends Component {
     };
   }
   render() {
+    const newSongNavigation = () => Actions.new_song(); 
+
     return (
-      <View style={{flex: 1, paddingTop: 22}}>
+      <View style={{flex: 1, paddingTop: 22, justifyContent: 'space-between'}}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(rowData) => <SongItem song={rowData}/>}
         />
+        <View style={{ marginBottom: 20 }}>
+          <TouchableOpacity onPress={newSongNavigation}>
+            <Text>New Song</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
