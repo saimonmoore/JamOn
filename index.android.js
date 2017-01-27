@@ -1,76 +1,31 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * JamOn
+ * https://github.com/saimonmoore/JamOn
  * @flow
  */
 
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  StyleSheet,
-  ListView,
-  Text,
-  View,
-  TouchableHighlight
 } from 'react-native';
 
-//import {Router, Scene} from 'react-native-mobx';
-import Songs from './components/Songs';
+import {Router, Scene} from 'react-native-mobx';
 
-const songs = [
-  {
-    id: 1,
-    name: 'Concerto',
-    author: 'Vivaldi',
-    genre: 'Classical',
-  },
-  {
-    id: 2,
-    name: 'Mi Favorita',
-    author: 'Anonimo',
-    genre: 'Mazurka',
-  },
-  {
-    id: 3,
-    name: 'Tema de Ibanez I',
-    author: 'Ibanez',
-    genre: 'Flamenco',
-  },
-  {
-    id: 4,
-    name: 'Tema de Ibanez II',
-    author: 'Ibanez',
-    genre: 'Flamenco',
-  },
-];
+import SongsStore from './stores/songs-store';
+import App from './components/App';
+import Song from './components/Song';
 
-export default class App extends Component {
+export default class JamOn extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Songs songs={songs}/>
-      </View>
+      <Router store={SongsStore}>
+        <Scene key="root">
+          <Scene key="songs" component={App} title='JamOn' initial={true} hideNavBar />
+          <Scene key="song" component={Song} title='Song' hideNavBar />
+        </Scene>
+      </Router>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-AppRegistry.registerComponent('JamOn', () => App);
+AppRegistry.registerComponent('JamOn', () => JamOn);

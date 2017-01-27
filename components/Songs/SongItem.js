@@ -3,22 +3,23 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 
+import {Actions} from 'react-native-mobx';
+
 class Song extends Component {
+  onPressSong() {
+    console.log('pressed song');
+  }
+
   render() {
+    const goToSongScene = () => Actions.song({song: this.props.song}); 
     return (
       <View style={{flex: 1, paddingTop: 22}}>
-        <View>
+        <TouchableOpacity onPress={goToSongScene}>
           <Text>{this.props.song.name}</Text>
-        </View>
-        <View>
-          <Text>{this.props.song.author}</Text>
-        </View>
-        <View>
-          <Text>{this.props.song.genre}</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     );
   }
