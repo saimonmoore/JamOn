@@ -6,7 +6,14 @@ class SongsStore {
   @observable songs = {};
 
   add(song) {
+    if (!song) return;
+
+    song.id = this.nextId();
     this.songs[song.id] = song;
+  }
+
+  nextId() {
+    return Object.keys(this.songs).length + 1;
   }
 }
 

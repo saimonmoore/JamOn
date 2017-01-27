@@ -10,13 +10,17 @@ import {
 import {Actions} from 'react-native-mobx';
 
 import SongItem from './SongItem';
+import FlexiIcon from '../FlexiIcon';
+import autobind from 'autobind-decorator';
 
+@autobind
 class Songs extends Component {
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     this.state = {
-      dataSource: ds.cloneWithRows(props.songs)
+      dataSource: ds.cloneWithRows(this.props.songs)
     };
   }
   render() {
@@ -30,7 +34,7 @@ class Songs extends Component {
         />
         <View style={{ marginBottom: 20 }}>
           <TouchableOpacity onPress={newSongNavigation}>
-            <Text>New Song</Text>
+            <FlexiIcon name='add-circle' size={50} style={{color:'#3c80f6'}} />
           </TouchableOpacity>
         </View>
       </View>

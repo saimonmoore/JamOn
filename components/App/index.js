@@ -6,38 +6,12 @@ import {
 
 import Songs from '../Songs';
 
-const songs = [
-  {
-    id: 1,
-    name: 'Concerto',
-    author: 'Vivaldi',
-    genre: 'Classical',
-  },
-  {
-    id: 2,
-    name: 'Mi Favorita',
-    author: 'Anonimo',
-    genre: 'Mazurka',
-  },
-  {
-    id: 3,
-    name: 'Tema de Ibanez I',
-    author: 'Ibanez',
-    genre: 'Flamenco',
-  },
-  {
-    id: 4,
-    name: 'Tema de Ibanez II',
-    author: 'Ibanez',
-    genre: 'Flamenco',
-  },
-];
-
 export default class App extends Component {
   render() {
+    const store = this.props.store;
     return (
       <View style={styles.container}>
-        <Songs songs={songs}/>
+        <Songs songs={store.songs}/>
       </View>
     );
   }
