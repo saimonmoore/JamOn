@@ -8,25 +8,47 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
+  ListView,
   Text,
-  View
+  View,
+  TouchableHighlight
 } from 'react-native';
 
-export default class JamOn extends Component {
+//import {Router, Scene} from 'react-native-mobx';
+import Songs from './components/Songs';
+
+const songs = [
+  {
+    id: 1,
+    name: 'Concerto',
+    author: 'Vivaldi',
+    genre: 'Classical',
+  },
+  {
+    id: 2,
+    name: 'Mi Favorita',
+    author: 'Anonimo',
+    genre: 'Mazurka',
+  },
+  {
+    id: 3,
+    name: 'Tema de Ibanez I',
+    author: 'Ibanez',
+    genre: 'Flamenco',
+  },
+  {
+    id: 4,
+    name: 'Tema de Ibanez II',
+    author: 'Ibanez',
+    genre: 'Flamenco',
+  },
+];
+
+export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to JamOn!
-          
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
+        <Songs songs={songs}/>
       </View>
     );
   }
@@ -51,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('JamOn', () => JamOn);
+AppRegistry.registerComponent('JamOn', () => App);
