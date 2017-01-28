@@ -3,6 +3,7 @@ import {
   TextInput,
   View,
   Button,
+  Keyboard,
 } from 'react-native';
 
 import {
@@ -26,8 +27,7 @@ class SongForm extends Component {
   }
 
   @autobind addSong() {
-    // Will probably need to persist state to localstorage
-    // between scenes.
+    Keyboard.dismiss();
     const store = this.props.songs_store;
     store.add(this.state.songForm);
     Actions.pop();
