@@ -21,7 +21,6 @@ class Songs extends Component {
 
     this.datasource = this.setupDataSource();
     this.updateDataSource();
-    console.log('[Songs#constructor] done');
   }
 
   setupDataSource() {
@@ -30,12 +29,11 @@ class Songs extends Component {
 
   updateDataSource() {
     const songs = this.props.songs_store.songs.values();
-    console.log('[Songs#updateDataSource]  ===> songs: ', songs)
     this.dataSource = this.datasource.cloneWithRows(songs);
   }
 
   render() {
-    const newSongNavigation = () => Actions.new_song(); 
+    const goToNewSong = () => Actions.song_form(); 
     this.updateDataSource();
 
     return (
@@ -45,7 +43,7 @@ class Songs extends Component {
           renderRow={(rowData) => <SongItem song={rowData}/>}
         />
         <View style={{ marginBottom: 20 }}>
-          <TouchableOpacity onPress={newSongNavigation}>
+          <TouchableOpacity onPress={goToNewSong}>
             <FlexiIcon name='add-circle' size={50} style={{color:'#3c80f6'}} />
           </TouchableOpacity>
         </View>

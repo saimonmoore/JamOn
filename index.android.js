@@ -28,7 +28,7 @@ export default class JamOn extends Component {
           <Scene key="root">
             <Scene key="songs" component={App} title='JamOn' initial={true} hideNavBar />
             <Scene key="song" component={Song} title='Song' hideNavBar />
-            <Scene key="new_song" component={OSongForm} title='New Song' hideNavBar />
+            <Scene key="song_form" component={OSongForm} hideNavBar />
           </Scene>
         </Router>
       </Provider>

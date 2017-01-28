@@ -5,13 +5,15 @@ import autobind from 'autobind-decorator'
 class SongsStore {
   songs = observable.map({});
 
-  @action add(song) {
+  @action('SongsStore#add') add(song) {
     if (!song) return;
     this.songs.set(song.name, song);
   }
 
-  nextId() {
-    return Object.keys(this.songs).length + 1;
+  @action('SongsStore#update') update(song, attributes) {
+    if (!song) return;
+    const currentSong = this.songs.get(song.name);
+    this.songs.set(song.name, Object.assign(currentSong, attributes));
   }
 }
 

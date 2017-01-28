@@ -26,11 +26,30 @@ class SongForm extends Component {
     this.state = {};
   }
 
-  @autobind addSong() {
+  @autobind addOrUpdateSong() {
     Keyboard.dismiss();
+
+    const song = this.props.song;
+
+    if (song) {
+      this.updateSong();
+    } else {
+      this.addSong();
+    }
+
+    Actions.pop();
+  }
+
+  @autobind addSong() {
     const store = this.props.songs_store;
     store.add(this.state.songForm);
-    Actions.pop();
+  }
+
+  @autobind updateSong() {
+    const store = this.props.songs_store;
+    const song = this.props.song;
+    const formData = this.state.songForm;
+    store.update(song, formData);
   }
 
   @autobind handleFormChanges(songForm) {
@@ -38,6 +57,8 @@ class SongForm extends Component {
   }
 
   render() {
+    const song = this.props.song;
+    const buttonLabel = song ? 'Update' : 'Add';
 
     return (
       <View style={{flex: 1, paddingTop: 22}}>
@@ -49,17 +70,20 @@ class SongForm extends Component {
           <InputField
             ref='name'
             placeholder="Song Name"
+            value = {song ? song.name : ''}
             iconLeft={<FlexiIcon name='text-format' size={20} style={{color:'#793315'}} />}
           />
 
           <InputField
             ref='author'
             placeholder="Song Author"
+            value = {song ? song.author : ''}
             iconLeft={<FlexiIcon name='person-pin' size={20} style={{color:'#793315'}} />}
           />
 
           <PickerField ref='genre'
             label='Genre'
+            value = {song ? song.genre : ''}
             options={{
               pop: 'Pop',
               rock: 'Rock',
@@ -68,10 +92,9 @@ class SongForm extends Component {
             }}/>
         </Form>
         <Button
-          onPress={this.addSong}
-          title="Add"
+          onPress={this.addOrUpdateSong}
+          title={ buttonLabel }
           color="#841584"
-          accessibilityLabel="Press to add the song"
         />
       </View>
     );

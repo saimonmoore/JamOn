@@ -15,7 +15,7 @@ class Song extends Component {
 
   render() {
     let song = this.props.song;
-    const goToNewSongScene = () => Actions.new_song(); 
+    const goToNewSongScene = () => Actions.song_form(); 
 
     if (!song) {
       return (
