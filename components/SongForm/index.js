@@ -12,6 +12,7 @@ import {
 } from 'react-native-form-generator';
 
 import { inject, observer } from 'mobx-react/native';
+import {Actions} from 'react-native-mobx';
 
 import autobind from 'autobind-decorator';
 import FlexiIcon from '../FlexiIcon';
@@ -29,6 +30,7 @@ class SongForm extends Component {
     // between scenes.
     const store = this.props.songs_store;
     store.add(this.state.songForm);
+    Actions.pop();
   }
 
   @autobind handleFormChanges(songForm) {

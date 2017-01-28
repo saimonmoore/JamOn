@@ -1,15 +1,13 @@
-import {reaction, observable, observe, computed, autorun} from 'mobx';
+import {action, observable} from 'mobx';
 import autobind from 'autobind-decorator'
 
 @autobind
 class SongsStore {
-  @observable songs = {};
+  songs = observable.map({});
 
-  add(song) {
+  @action add(song) {
     if (!song) return;
-
-    song.id = this.nextId();
-    this.songs[song.id] = song;
+    this.songs.set(song.name, song);
   }
 
   nextId() {

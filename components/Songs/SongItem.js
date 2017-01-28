@@ -14,6 +14,19 @@ class Song extends Component {
   }
 
   render() {
+    let song = this.props.song;
+    const goToNewSongScene = () => Actions.new_song(); 
+
+    if (!song) {
+      return (
+        <View style={{flex: 1, paddingTop: 22}}>
+          <TouchableOpacity onPress={goToNewSongScene}>
+            <Text>No Songs. Press + to create one.</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+
     const goToSongScene = () => Actions.song({song: this.props.song}); 
     return (
       <View style={{flex: 1, paddingTop: 22}}>

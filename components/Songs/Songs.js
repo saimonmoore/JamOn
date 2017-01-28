@@ -18,19 +18,30 @@ import FlexiIcon from '../FlexiIcon';
 class Songs extends Component {
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-    this.state = {
-      dataSource: ds.cloneWithRows(this.props.songs_store.songs)
-    };
+    this.datasource = this.setupDataSource();
+    this.updateDataSource();
+    console.log('[Songs#constructor] done');
   }
+
+  setupDataSource() {
+    return new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+  }
+
+  updateDataSource() {
+    const songs = this.props.songs_store.songs.values();
+    console.log('[Songs#updateDataSource]  ===> songs: ', songs)
+    this.dataSource = this.datasource.cloneWithRows(songs);
+  }
+
   render() {
     const newSongNavigation = () => Actions.new_song(); 
+    this.updateDataSource();
 
     return (
       <View style={{flex: 1, paddingTop: 22, justifyContent: 'space-between'}}>
         <ListView
-          dataSource={this.state.dataSource}
+          dataSource={this.dataSource}
           renderRow={(rowData) => <SongItem song={rowData}/>}
         />
         <View style={{ marginBottom: 20 }}>
