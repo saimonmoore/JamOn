@@ -11,7 +11,7 @@ export default class App extends Component {
     const store = this.props.store;
     return (
       <View style={styles.container}>
-        <Songs songs={store.songs}/>
+        <Songs/>
       </View>
     );
   }

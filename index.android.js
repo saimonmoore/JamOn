@@ -9,23 +9,29 @@ import {
   AppRegistry,
 } from 'react-native';
 
+import {Provider} from 'mobx-react/native';
 import {Router, Scene} from 'react-native-mobx';
+import {observer} from "mobx-react/native"
 
-import SongsStore from './stores/songs-store';
 import App from './components/App';
 import Song from './components/Song';
 import SongForm from './components/SongForm';
+import * as stores from './stores';
+
+const OSongForm = observer(SongForm);
 
 export default class JamOn extends Component {
   render() {
     return (
-      <Router store={SongsStore}>
-        <Scene key="root">
-          <Scene key="songs" component={App} title='JamOn' initial={true} hideNavBar />
-          <Scene key="song" component={Song} title='Song' hideNavBar />
-          <Scene key="new_song" component={SongForm} title='New Song' hideNavBar />
-        </Scene>
-      </Router>
+      <Provider {...stores}>
+        <Router>
+          <Scene key="root">
+            <Scene key="songs" component={App} title='JamOn' initial={true} hideNavBar />
+            <Scene key="song" component={Song} title='Song' hideNavBar />
+            <Scene key="new_song" component={OSongForm} title='New Song' hideNavBar />
+          </Scene>
+        </Router>
+      </Provider>
     );
   }
 }

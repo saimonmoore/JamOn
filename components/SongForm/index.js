@@ -11,24 +11,27 @@ import {
   PickerField,
 } from 'react-native-form-generator';
 
+import { inject, observer } from 'mobx-react/native';
+
 import autobind from 'autobind-decorator';
 import FlexiIcon from '../FlexiIcon';
 
-@autobind
+@inject('songs_store')
+@observer
 class SongForm extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  addSong() {
+  @autobind addSong() {
     // Will probably need to persist state to localstorage
     // between scenes.
-    const store = this.props.store;
+    const store = this.props.songs_store;
     store.add(this.state.songForm);
   }
 
-  handleFormChanges(songForm) {
+  @autobind handleFormChanges(songForm) {
     this.setState({songForm});
   }
 

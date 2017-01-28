@@ -8,19 +8,20 @@ import {
 } from 'react-native';
 
 import {Actions} from 'react-native-mobx';
+import { inject, observer } from 'mobx-react/native';
 
 import SongItem from './SongItem';
 import FlexiIcon from '../FlexiIcon';
-import autobind from 'autobind-decorator';
 
-@autobind
+@inject('songs_store')
+@observer
 class Songs extends Component {
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
-      dataSource: ds.cloneWithRows(this.props.songs)
+      dataSource: ds.cloneWithRows(this.props.songs_store.songs)
     };
   }
   render() {

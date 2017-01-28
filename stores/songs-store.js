@@ -17,4 +17,4 @@ class SongsStore {
   }
 }
 
-export default new SongsStore();
+export default SongsStore;
