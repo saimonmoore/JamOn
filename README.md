@@ -8,6 +8,15 @@
 
     `react-native run-android`
 
+- Start watchman via (Ensure you have an empty .watchmanconfig file in project
+  root:
+
+    `watchman watch-project .`
+
 - Start packager via:
 
     `react-native start`
+
+- Enable logging via:
+
+    `adb logcat`
