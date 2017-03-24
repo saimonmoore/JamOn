@@ -8,7 +8,7 @@ import {
 
 import {Actions} from 'react-native-mobx';
 
-class Song extends Component {
+class SongItem extends Component {
   onPressSong() {
     console.log('pressed song');
   }
@@ -38,4 +38,4 @@ class Song extends Component {
   }
 }
 
-export default Song;
+export default SongItem;

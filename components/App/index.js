@@ -8,7 +8,6 @@ import Songs from '../Songs';
 
 export default class App extends Component {
   render() {
-    const store = this.props.store;
     return (
       <View style={styles.container}>
         <Songs/>
