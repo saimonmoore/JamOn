@@ -7,19 +7,25 @@ import {
   View,
 } from 'react-native';
 
-import { observer } from 'mobx-react/native';
+import { inject, observer } from 'mobx-react/native';
 import autobind from 'autobind-decorator';
 import {Actions} from 'react-native-mobx';
 
+@inject('sessions_store')
 @observer
 class Session extends Component {
 
   @autobind deleteSession(){
     const session = this.props.session;
 
-    if (session) {
-      console.log('Implement delete session');
+    if (!session) {
+      console.log('No session to delete!');
+      return;
     }
+
+    const store = this.props.sessions_store;
+    store.delete(session);
+    Actions.pop();
   }
 
   playSession() {

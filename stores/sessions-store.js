@@ -29,6 +29,13 @@ class SessionsStore {
     LocalStorage.persistStore('sessions', this.sessions);
   }
 
+  @action('SessionsStore#delete') delete(session) {
+    if (!session) return;
+    const currentSession = this.sessions.get(session.id);
+    this.sessions.delete(session.id);
+    LocalStorage.persistStore('sessions', this.sessions);
+  }
+
   getAsList() {
     return this.sessions.values();
   }
