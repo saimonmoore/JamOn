@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  TextInput,
   View,
   Button,
   Keyboard,
@@ -8,15 +7,16 @@ import {
 
 import {
   Form,
-  InputField, 
+  InputField,
 } from 'react-native-form-generator';
 
 import { inject, observer } from 'mobx-react/native';
-import {Actions} from 'react-native-mobx';
+import { Actions } from 'react-native-mobx';
 
 import autobind from 'autobind-decorator';
 import FlexiIcon from '../FlexiIcon';
 import moment from 'moment';
+import SessionRecorder from '../Session/Recorder';
 
 @inject('sessions_store')
 @observer
@@ -67,7 +67,7 @@ class SessionForm extends Component {
 
   @autobind handleFormChanges(sessionForm) {
     console.log('[SessionForm#handleFormChanges] sessionForm: ', sessionForm);
-    this.setState({sessionForm});
+    this.setState({ sessionForm });
   }
 
   render() {
@@ -75,22 +75,24 @@ class SessionForm extends Component {
     const buttonLabel = session ? 'Update' : 'Record';
 
     return (
-      <View style={{flex: 1, paddingTop: 22}}>
+      <View style={{ flex: 1, paddingTop: 22 }}>
         <Form
-          ref='sessionForm'
+          ref="sessionForm"
           onChange={this.handleFormChanges}
-          label="Session Info">
+          label="Session Info"
+        >
 
           <InputField
-            ref='bps'
+            ref="bps"
             placeholder="Beats per second"
-            value = {session ? session.bps : ''}
-            iconLeft={<FlexiIcon name='text-format' size={20} style={{color:'#793315'}} />}
+            value={session ? session.bps : ''}
+            iconLeft={<FlexiIcon name="text-format" size={20} style={{ color: '#793315' }} />}
           />
         </Form>
+        <SessionRecorder />
         <Button
           onPress={this.addOrUpdateSession}
-          title={ buttonLabel }
+          title={buttonLabel}
           color="#841584"
         />
       </View>
