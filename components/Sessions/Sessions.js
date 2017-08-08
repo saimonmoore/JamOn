@@ -43,6 +43,7 @@ class Sessions extends Component {
         <ListView
           dataSource={this.dataSource}
           renderRow={(rowData) => <SessionItem session={rowData}/>}
+          enableEmptySections={true}
         />
         <View style={{ marginBottom: 20 }}>
           <TouchableOpacity onPress={goToNewSession}>

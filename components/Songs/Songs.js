@@ -41,6 +41,7 @@ class Songs extends Component {
         <ListView
           dataSource={this.dataSource}
           renderRow={(rowData) => <SongItem song={rowData}/>}
+          enableEmptySections={true}
         />
         <View style={{ marginBottom: 20 }}>
           <TouchableOpacity onPress={goToNewSong}>
