@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   ListView,
-  Text,
   View,
   TouchableOpacity,
 } from 'react-native';
 
-import {Actions} from 'react-native-mobx';
+import { Actions } from 'react-native-mobx';
 import { inject, observer } from 'mobx-react/native';
 
 import SessionItem from './SessionItem';
 import FlexiIcon from '../FlexiIcon';
 
-@inject('sessions_store')
 @observer
+@inject('sessions_store')
 class Sessions extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +22,7 @@ class Sessions extends Component {
   }
 
   setupDataSource() {
-    return new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    return new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
   }
 
   updateDataSource() {
@@ -35,19 +33,19 @@ class Sessions extends Component {
 
   render() {
     console.log('[Sessions] song: ', this.props.song);
-    const goToNewSession = () => Actions.session_form({song: this.props.song}); 
+    const goToNewSession = () => Actions.session_form({ song: this.props.song });
     this.updateDataSource();
 
     return (
-      <View style={{flex: 1, paddingTop: 22, justifyContent: 'space-between'}}>
+      <View style={{ flex: 1, paddingTop: 22, justifyContent: 'space-between' }}>
         <ListView
           dataSource={this.dataSource}
-          renderRow={(rowData) => <SessionItem session={rowData}/>}
+          renderRow={rowData => <SessionItem session={rowData} />}
           enableEmptySections={true}
         />
         <View style={{ marginBottom: 20 }}>
           <TouchableOpacity onPress={goToNewSession}>
-            <FlexiIcon name='add-circle' size={50} style={{color:'#3c80f6'}} />
+            <FlexiIcon name="add-circle" size={50} style={{ color: '#3c80f6' }} />
           </TouchableOpacity>
         </View>
       </View>

@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   ListView,
-  Text,
   View,
   TouchableOpacity,
 } from 'react-native';
 
-import {Actions} from 'react-native-mobx';
+import { Actions } from 'react-native-mobx';
 import { inject, observer } from 'mobx-react/native';
 
 import SongItem from './SongItem';
@@ -24,28 +22,29 @@ class Songs extends Component {
   }
 
   setupDataSource() {
-    return new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    return new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
   }
 
   updateDataSource() {
     const songs = this.props.songs_store.songs.values();
+    console.log('====> songs: ', this.props.songs_store.songs);
     this.dataSource = this.datasource.cloneWithRows(songs);
   }
 
   render() {
-    const goToNewSong = () => Actions.song_form(); 
+    const goToNewSong = () => Actions.song_form();
     this.updateDataSource();
 
     return (
-      <View style={{flex: 1, paddingTop: 22, justifyContent: 'space-between'}}>
+      <View style={{ flex: 1, paddingTop: 22, justifyContent: 'space-between' }}>
         <ListView
           dataSource={this.dataSource}
-          renderRow={(rowData) => <SongItem song={rowData}/>}
+          renderRow={(rowData) => { console.log('===> rowData: ', rowData); return <SongItem song={rowData} />; }}
           enableEmptySections={true}
         />
         <View style={{ marginBottom: 20 }}>
           <TouchableOpacity onPress={goToNewSong}>
-            <FlexiIcon name='add-circle' size={50} style={{color:'#3c80f6'}} />
+            <FlexiIcon name="add-circle" size={50} style={{ color: '#3c80f6' }} />
           </TouchableOpacity>
         </View>
       </View>

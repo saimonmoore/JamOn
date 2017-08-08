@@ -18,8 +18,8 @@ import {Actions} from 'react-native-mobx';
 import autobind from 'autobind-decorator';
 import FlexiIcon from '../FlexiIcon';
 
-@inject('songs_store')
 @observer
+@inject('songs_store')
 class SongForm extends Component {
   constructor(props) {
     super(props);

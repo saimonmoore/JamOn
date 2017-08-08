@@ -44,13 +44,15 @@ const styles = StyleSheet.create({
 });
 
 
+// Being recorded to: /data/user/0/com.jamon/files/test.aac
 class SessionRecorder extends Component {
   state = {
     currentTime: 0.0,
     recording: false,
     stoppedRecording: false,
     finished: false,
-    audioPath: `${AudioUtils.DocumentDirectoryPath}/test.aac`,
+    audioPathPrefix: AudioUtils.DocumentDirectoryPath,
+    audioFileEncoding: 'aac',
     hasPermission: undefined,
   };
 
@@ -60,7 +62,7 @@ class SessionRecorder extends Component {
 
       if (!hasPermission) return;
 
-      this.prepareRecordingPath(this.state.audioPath);
+      this.prepareRecordingPath();
 
       AudioRecorder.onProgress = (data) => {
         this.setState({ currentTime: Math.floor(data.currentTime) });
@@ -75,7 +77,23 @@ class SessionRecorder extends Component {
     });
   }
 
-  prepareRecordingPath(audioPath) {
+  audioFilePath() {
+    const audioPathPrefix = this.state.audioPathPrefix;
+    const audioFileName = this.audioFileName();
+    return `${audioPathPrefix}/${audioFileName}`;
+  }
+
+  audioFileName() {
+    const song = this.props.song;
+    const fileName = song ? song.name : 'untitled';
+    const encoding = this.state.audioFileEncoding;
+
+    return `jam-session-${fileName}-${Date.now()}.${encoding}`;
+  }
+
+  prepareRecordingPath() {
+    const audioPath = this.audioFilePath();
+
     AudioRecorder.prepareRecordingAtPath(audioPath, {
       SampleRate: 22050,
       Channels: 1,
@@ -92,7 +110,7 @@ class SessionRecorder extends Component {
 
     const rationale = {
       title: 'Microphone Permission',
-      message: 'AudioExample needs access to your microphone so you can record audio.',
+      message: 'JamOn needs access to your microphone so you can record audio.',
     };
 
     return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.RECORD_AUDIO, rationale)
@@ -154,33 +172,6 @@ class SessionRecorder extends Component {
     }
   }
 
-  async _play() {
-    if (this.state.recording) {
-      await this._stop();
-    }
-
-    // These timeouts are a hacky workaround for some issues with react-native-sound.
-    // See https://github.com/zmxv/react-native-sound/issues/89.
-    // TODO: Check if necessary
-    setTimeout(() => {
-      const sound = new Sound(this.state.audioPath, '', (error) => {
-        if (error) {
-          console.log('failed to load the sound', error);
-        }
-      });
-
-      setTimeout(() => {
-        sound.play((success) => {
-          if (success) {
-            console.log('successfully finished playing');
-          } else {
-            console.log('playback failed due to audio decoding errors');
-          }
-        });
-      }, 100);
-    }, 100);
-  }
-
   async _record() {
     if (this.state.recording) {
       console.warn('Already recording!');
@@ -193,7 +184,7 @@ class SessionRecorder extends Component {
     }
 
     if (this.state.stoppedRecording) {
-      this.prepareRecordingPath(this.state.audioPath);
+      this.prepareRecordingPath();
     }
 
     this.setState({ recording: true });
@@ -206,19 +197,20 @@ class SessionRecorder extends Component {
     }
   }
 
-  _finishRecording(didSucceed, filePath) {
+  _finishRecording(didSucceed, audioFilePath) {
     this.setState({ finished: didSucceed });
-    console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath}`);
+    this.props.onFinished(audioFilePath, this.state.currentTime);
+    console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${audioFilePath}`);
   }
 
   render() {
+    const recording = this.state.recording;
+
     return (
       <View style={styles.container}>
         <View style={styles.controls}>
           {this._renderButton('RECORD', () => this._record(), this.state.recording)}
-          {this._renderButton('PLAY', () => this._play())}
           {this._renderButton('STOP', () => this._stop())}
-          {this._renderButton('PAUSE', () => this._pause())}
           <Text style={styles.progressText}>{ this.state.currentTime }s</Text>
         </View>
       </View>

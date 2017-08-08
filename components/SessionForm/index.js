@@ -18,12 +18,19 @@ import FlexiIcon from '../FlexiIcon';
 import moment from 'moment';
 import SessionRecorder from '../Session/Recorder';
 
-@inject('sessions_store')
 @observer
+@inject('sessions_store')
 class SessionForm extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  @autobind onRecordingFinished(audioFileUrl, duration) {
+    const formData = this.state.sessionForm;
+    Object.assign(formData, { audioFileUrl, duration });
+    console.log('[SessionForm#onRecordingFinished] formData: ', formData);
+    this.addOrUpdateSession();
   }
 
   @autobind addOrUpdateSession() {
@@ -72,7 +79,7 @@ class SessionForm extends Component {
 
   render() {
     const session = this.props.session;
-    const buttonLabel = session ? 'Update' : 'Record';
+    const song = this.props.song;
 
     return (
       <View style={{ flex: 1, paddingTop: 22 }}>
@@ -89,12 +96,7 @@ class SessionForm extends Component {
             iconLeft={<FlexiIcon name="text-format" size={20} style={{ color: '#793315' }} />}
           />
         </Form>
-        <SessionRecorder />
-        <Button
-          onPress={this.addOrUpdateSession}
-          title={buttonLabel}
-          color="#841584"
-        />
+        <SessionRecorder onFinished={this.onRecordingFinished} song={song} />
       </View>
     );
   }

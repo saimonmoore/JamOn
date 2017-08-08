@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import {
   Button,
-  StyleSheet,
   Text,
-  TouchableHighlight,
   View,
 } from 'react-native';
 
 import { inject, observer } from 'mobx-react/native';
 import autobind from 'autobind-decorator';
-import {Actions} from 'react-native-mobx';
+import { Actions } from 'react-native-mobx';
 
-@inject('sessions_store')
+import SessionPlayer from '../Session/Player';
+
 @observer
+@inject('sessions_store')
 class Session extends Component {
-
-  @autobind deleteSession(){
+  @autobind deleteSession() {
     const session = this.props.session;
 
     if (!session) {
@@ -25,27 +24,23 @@ class Session extends Component {
 
     const store = this.props.sessions_store;
     store.delete(session);
+    // TODO: Delete audio file
     Actions.pop();
   }
 
-  playSession() {
-    console.log('playing session recording');
-  }
-
   render() {
+    const session = this.props.session;
+
     return (
       <View>
         <View>
-          <Text style={{fontWeight: 'bold'}}>Beats per second: {this.props.session.bps}</Text>
+          <Text style={{ fontWeight: 'bold' }}>Beats per second: {session.bps}</Text>
         </View>
         <View>
-          <Text>Recorded on: {this.props.session.date}</Text>
+          <Text>Recorded on: {session.date}</Text>
         </View>
-        <TouchableHighlight onPress={this.playSession}>
-          <View>
-            <Text>Play Session</Text>
-          </View>
-        </TouchableHighlight>
+
+        <SessionPlayer session={session} />
         <Button
           onPress={this.deleteSession}
           title="Delete"
