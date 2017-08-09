@@ -43,43 +43,110 @@ const styles = StyleSheet.create({
 
 
 class SessionPlayer extends Component {
+
+  state = {
+    playing: false,
+    loaded: false,
+  };
+
+  componentDidMount() {
+    this.loadAudio().then((sound) => {
+      console.log('Sound loaded: ', sound, sound.isLoaded());
+      this.setState({ loaded: true, sound });
+    });
+  }
+
+  componentWillUnmount() {
+    if (!this.state.loaded) return;
+    const sound = this.state.sound;
+    sound.release();
+  }
+
+  loadAudio() {
+    const audioPath = this.audioFilePath();
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const sound = new Sound(audioPath, '', (error) => {
+          if (error) {
+            console.log('failed to load the sound', error);
+            reject(Error("Can't load audio"));
+          }
+
+          resolve(sound);
+        });
+      }, 100);
+    });
+
+    return promise;
+  }
+
   audioFilePath() {
     const session = this.props.session;
     return session.audioFileUrl;
   }
 
   @autobind async _play() {
-    const audioPath = this.audioFilePath();
+    if (!this.state.loaded) return;
+    const sound = this.state.sound;
 
-    // These timeouts are a hacky workaround for some issues with react-native-sound.
-    // See https://github.com/zmxv/react-native-sound/issues/89.
-    // TODO: Check if necessary
     setTimeout(() => {
-      const sound = new Sound(audioPath, '', (error) => {
-        if (error) {
-          console.log('failed to load the sound', error);
+      this.setState({ playing: true });
+      sound.play((success) => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
         }
+        this.setState({ playing: false });
       });
-
-      setTimeout(() => {
-        sound.play((success) => {
-          if (success) {
-            console.log('successfully finished playing');
-          } else {
-            console.log('playback failed due to audio decoding errors');
-          }
-        });
-      }, 100);
     }, 100);
+  }
+
+  @autobind async _stop() {
+    if (!this.state.playing) return;
+    const sound = this.state.sound;
+
+    setTimeout(() => {
+      sound.stop(() => {
+        this.setState({ playing: false });
+        console.log('Sound stopped playing');
+      });
+    }, 100);
+  }
+
+  @autobind async _pause() {
+    if (!this.state.playing) return;
+    const sound = this.state.sound;
+
+    setTimeout(() => {
+      sound.pause(() => {
+        this.setState({ playing: false });
+        console.log('Sound paused');
+      });
+    }, 100);
+  }
+
+  _renderButton(title, onPress, active) {
+    const style = (active) ? styles.activeButtonText : styles.buttonText;
+
+    return (
+      <TouchableHighlight style={styles.button} onPress={onPress}>
+        <Text style={style}>
+          {title}
+        </Text>
+      </TouchableHighlight>
+    );
   }
 
   render() {
     return (
-      <TouchableHighlight style={styles.button} onPress={this._play}>
-        <Text style={styles.activeButtonText}>
-          PLAY
-        </Text>
-      </TouchableHighlight>
+      <View style={styles.container} >
+        <View style={styles.controls} >
+          {this._renderButton('▶', this._play, !this.state.playing)}
+          {this._renderButton('⏸', this._pause, this.state.playing)}
+          {this._renderButton('⏹', this._stop, this.state.playing)}
+        </View>
+      </View>
     );
   }
 }
