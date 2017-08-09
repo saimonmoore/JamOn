@@ -1,25 +1,22 @@
 import React, { Component } from 'react';
 import {
   Button,
-  StyleSheet,
   Text,
-  TouchableHighlight,
   View,
 } from 'react-native';
 
 import { observer } from 'mobx-react/native';
 import autobind from 'autobind-decorator';
-import { Actions } from 'react-native-router-flux';
 import Sessions from '../Sessions';
 
 @observer
 class Song extends Component {
-
-  @autobind editSong(){
+  @autobind editSong() {
     const song = this.props.song;
+    const { navigate } = this.props.navigation;
 
     if (song) {
-      Actions.song_form({song: song}); 
+      navigate('Song', { song, title: song.name });
     }
   }
 
@@ -27,7 +24,7 @@ class Song extends Component {
     return (
       <View style={{flex: 1, paddingTop: 22}}>
         <View>
-          <Text style={{fontWeight: 'bold'}}>{this.props.song.name}</Text>
+          <Text style={{ fontWeight: 'bold' }}>{this.props.song.name}</Text>
         </View>
         <View>
           <Text>{this.props.song.author}</Text>
@@ -42,7 +39,7 @@ class Song extends Component {
           accessibilityLabel="Press to edit the song"
         />
         <View>
-          <Text style={{textDecorationLine: 'underline', color: 'red'}}>Jammin's</Text>
+          <Text style={{ textDecorationLine: 'underline', color: 'red' }}>JamOn Sessions</Text>
         </View>
         <Sessions song={this.props.song} />
       </View>

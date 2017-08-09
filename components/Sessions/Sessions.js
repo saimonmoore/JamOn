@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { Actions } from 'react-native-router-flux';
 import { inject, observer } from 'mobx-react/native';
 
 import SessionItem from './SessionItem';
@@ -33,7 +32,10 @@ class Sessions extends Component {
 
   render() {
     console.log('[Sessions] song: ', this.props.song);
-    const goToNewSession = () => Actions.session_form({ song: this.props.song });
+    const song = this.props.song;
+    const { navigate } = this.props.navigation;
+    const goToNewSession = () => navigate('SessionForm', { song, title: 'New Session' });
+
     this.updateDataSource();
 
     return (

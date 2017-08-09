@@ -1,37 +1,36 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
 
-import { Actions } from 'react-native-router-flux';
-
 class SessionItem extends Component {
   render() {
-    let session = this.props.session;
-    const goToNewSessionScene = () => Actions.session_form(); 
+    const session = this.props.session;
+    const { navigate } = this.props.navigation;
+    const goToNewSessionScene = () => navigate('SessionForm', { title: 'New Session' });
 
     if (!session) {
       return (
-        <View style={{flex: 1, paddingTop: 22}}>
+        <View style={{ flex: 1, paddingTop: 22 }}>
           <TouchableOpacity onPress={goToNewSessionScene}>
             <Text>No Sessions. Press + to create one.</Text>
           </TouchableOpacity>
         </View>
-      )
+      );
     }
 
-    const goToSessionScene = () => Actions.session({session: this.props.session}); 
+    const goToSessionScene = () => navigate('SessionForm', { session, title: session.bps });
+
     return (
       <View>
         <TouchableOpacity onPress={goToSessionScene}>
           <View>
-            <Text>{this.props.session.bps}</Text>
+            <Text>{session.bps}</Text>
           </View>
           <View>
-            <Text>{this.props.session.date}</Text>
+            <Text>{session.date}</Text>
           </View>
         </TouchableOpacity>
       </View>

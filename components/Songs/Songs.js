@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { Actions } from 'react-native-router-flux';
 import { inject, observer } from 'mobx-react/native';
 
 import SongItem from './SongItem';
@@ -32,7 +31,8 @@ class Songs extends Component {
   }
 
   render() {
-    const goToNewSong = () => Actions.song_form();
+    const { navigate } = this.props.navigation;
+    const goToNewSong = () => navigate('SongForm', { title: 'New Song' });
     this.updateDataSource();
 
     return (

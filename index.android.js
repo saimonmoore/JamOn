@@ -8,41 +8,29 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
 } from 'react-native';
+import { Provider } from 'mobx-react/native';
+import {
+  addNavigationHelpers,
+} from 'react-navigation';
 
-import { Provider, observer } from 'mobx-react/native';
-import { Reducer, Router, Scene } from 'react-native-router-flux';
-
-import App from './components/App';
-import Song from './components/Song';
-import Session from './components/Session';
-import SongForm from './components/SongForm';
-import SessionForm from './components/SessionForm';
+import AppNavigator from './components/AppNavigator';
+import NavigationStore from './stores/navigation-store';
 import * as stores from './stores';
 
-const SongFormObserver = observer(SongForm);
-const SessionFormObserver = observer(SessionForm);
-
-const createReducer = (params) => {
-  const defaultReducer = new Reducer(params);
-  return (state, action) => {
-    console.log('ACTION:', action);
-    return defaultReducer(state, action);
-  };
-};
-
 export default class JamOn extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.store = new NavigationStore();
+  }
+
   render() {
     return (
       <Provider {...stores}>
-        <Router createReducer={createReducer} >
-          <Scene key="root">
-            <Scene key="songs" component={App} title="JamOn" initial={true} hideNavBar={true} />
-            <Scene key="song" component={Song} title="Song" hideNavBar={true} />
-            <Scene key="song_form" component={SongFormObserver} hideNavBar={true} />
-            <Scene key="session_form" component={SessionFormObserver} hideNavBar={true} />
-            <Scene key="session" component={Session} hideNavBar={true} />
-          </Scene>
-        </Router>
+        <AppNavigator navigation={addNavigationHelpers({
+          dispatch: this.store.dispatch,
+          state: this.store.navigationState,
+        })}
+        />
       </Provider>
     );
   }

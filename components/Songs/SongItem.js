@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
-import { Actions } from 'react-native-router-flux';
 
 class SongItem extends Component {
   onPressSong() {
@@ -14,15 +11,16 @@ class SongItem extends Component {
   }
 
   render() {
-    let song = this.props.song;
+    const song = this.props.song;
     const goToNewSongScene = () => {
       console.log('Pressed new song');
-      Actions.song_form();
+      const { navigate } = this.props.navigation;
+      navigate('SongForm', { title: 'New Song' });
     };
 
     if (!song) {
       return (
-        <View style={{flex: 1, paddingTop: 22}}>
+        <View style={{ flex: 1, paddingTop: 22 }}>
           <TouchableOpacity onPress={goToNewSongScene}>
             <Text>No Songs. Press + to create one.</Text>
           </TouchableOpacity>
@@ -31,9 +29,11 @@ class SongItem extends Component {
     }
 
     const goToSongScene = () => {
-      console.log('Pressed go to song scene:', this.props.song);
-      Actions.song({ song: this.props.song });
+      console.log('Pressed go to song scene:', song);
+      const { navigate } = this.props.navigation;
+      navigate('Song', { song, title: song.name });
     };
+
     return (
       <View style={{ flex: 1, paddingTop: 22 }}>
         <TouchableOpacity onPress={goToSongScene}>

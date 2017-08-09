@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  TextInput,
   View,
   Button,
   Keyboard,
@@ -8,12 +7,11 @@ import {
 
 import {
   Form,
-  InputField, 
+  InputField,
   PickerField,
 } from 'react-native-form-generator';
 
 import { inject, observer } from 'mobx-react/native';
-import { Actions } from 'react-native-router-flux';
 
 import autobind from 'autobind-decorator';
 import FlexiIcon from '../FlexiIcon';
@@ -37,7 +35,8 @@ class SongForm extends Component {
       this.addSong();
     }
 
-    Actions.pop();
+    const { goBack } = this.props.navigation;
+    goBack();
   }
 
   @autobind addSong() {
@@ -53,7 +52,7 @@ class SongForm extends Component {
   }
 
   @autobind handleFormChanges(songForm) {
-    this.setState({songForm});
+    this.setState({ songForm });
   }
 
   render() {
