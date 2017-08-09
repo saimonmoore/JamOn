@@ -39,7 +39,7 @@ class Songs extends Component {
       <View style={{ flex: 1, paddingTop: 22, justifyContent: 'space-between' }}>
         <ListView
           dataSource={this.dataSource}
-          renderRow={(rowData) => { console.log('===> rowData: ', rowData); return <SongItem song={rowData} />; }}
+          renderRow={rowData => <SongItem song={rowData} />}
           enableEmptySections={true}
         />
         <View style={{ marginBottom: 20 }}>

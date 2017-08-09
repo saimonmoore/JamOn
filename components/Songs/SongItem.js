@@ -15,7 +15,10 @@ class SongItem extends Component {
 
   render() {
     let song = this.props.song;
-    const goToNewSongScene = () => Actions.song_form(); 
+    const goToNewSongScene = () => {
+      console.log('Pressed new song');
+      Actions.song_form();
+    };
 
     if (!song) {
       return (
@@ -24,12 +27,15 @@ class SongItem extends Component {
             <Text>No Songs. Press + to create one.</Text>
           </TouchableOpacity>
         </View>
-      )
+      );
     }
 
-    const goToSongScene = () => Actions.song({song: this.props.song}); 
+    const goToSongScene = () => {
+      console.log('Pressed go to song scene:', this.props.song);
+      Actions.song({ song: this.props.song });
+    };
     return (
-      <View style={{flex: 1, paddingTop: 22}}>
+      <View style={{ flex: 1, paddingTop: 22 }}>
         <TouchableOpacity onPress={goToSongScene}>
           <Text>{this.props.song.name}</Text>
         </TouchableOpacity>

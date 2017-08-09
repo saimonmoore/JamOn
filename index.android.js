@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { Provider, observer } from 'mobx-react/native';
-import { Router, Scene } from 'react-native-router-flux';
+import { Reducer, Router, Scene } from 'react-native-router-flux';
 
 import App from './components/App';
 import Song from './components/Song';
@@ -22,17 +22,25 @@ import * as stores from './stores';
 const SongFormObserver = observer(SongForm);
 const SessionFormObserver = observer(SessionForm);
 
+const createReducer = (params) => {
+  const defaultReducer = new Reducer(params);
+  return (state, action) => {
+    console.log('ACTION:', action);
+    return defaultReducer(state, action);
+  };
+};
+
 export default class JamOn extends Component {
   render() {
     return (
       <Provider {...stores}>
-        <Router>
+        <Router createReducer={createReducer} >
           <Scene key="root">
-            <Scene key="songs" component={App} title='JamOn' initial={true} hideNavBar />
-            <Scene key="song" component={Song} title='Song' hideNavBar />
-            <Scene key="song_form" component={SongFormObserver} hideNavBar />
-            <Scene key="session_form" component={SessionFormObserver} hideNavBar />
-            <Scene key="session" component={Session} hideNavBar />
+            <Scene key="songs" component={App} title="JamOn" initial={true} hideNavBar={true} />
+            <Scene key="song" component={Song} title="Song" hideNavBar={true} />
+            <Scene key="song_form" component={SongFormObserver} hideNavBar={true} />
+            <Scene key="session_form" component={SessionFormObserver} hideNavBar={true} />
+            <Scene key="session" component={Session} hideNavBar={true} />
           </Scene>
         </Router>
       </Provider>
