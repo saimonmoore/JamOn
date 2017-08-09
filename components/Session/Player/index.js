@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import Sound from 'react-native-sound';
+import autobind from 'autobind-decorator';
 
 const styles = StyleSheet.create({
   container: {
@@ -47,20 +48,13 @@ class SessionPlayer extends Component {
     return session.audioFileUrl;
   }
 
-  _renderButton(title, onPress) {
-    const style = styles.activeButtonText;
+  @autobind async _play() {
+    const audioPath = this.audioFilePath();
 
-    return (
-    );
-  }
-
-  async _play() {
     // These timeouts are a hacky workaround for some issues with react-native-sound.
     // See https://github.com/zmxv/react-native-sound/issues/89.
     // TODO: Check if necessary
     setTimeout(() => {
-      const audioPath = this.audioFilePath();
-
       const sound = new Sound(audioPath, '', (error) => {
         if (error) {
           console.log('failed to load the sound', error);
@@ -81,8 +75,8 @@ class SessionPlayer extends Component {
 
   render() {
     return (
-      <TouchableHighlight style={styles.button} onPress={this._play()}>
-        <Text style={style}>
+      <TouchableHighlight style={styles.button} onPress={this._play}>
+        <Text style={styles.activeButtonText}>
           PLAY
         </Text>
       </TouchableHighlight>
