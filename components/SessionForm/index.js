@@ -11,7 +11,7 @@ import {
 } from 'react-native-form-generator';
 
 import { inject, observer } from 'mobx-react/native';
-import { Actions } from 'react-native-mobx';
+import { Actions } from 'react-native-router-flux';
 
 import autobind from 'autobind-decorator';
 import FlexiIcon from '../FlexiIcon';

@@ -9,9 +9,8 @@ import {
   AppRegistry,
 } from 'react-native';
 
-import {Provider} from 'mobx-react/native';
-import {Router, Scene} from 'react-native-mobx';
-import {observer} from "mobx-react/native"
+import { Provider, observer } from 'mobx-react/native';
+import { Router, Scene } from 'react-native-router-flux';
 
 import App from './components/App';
 import Song from './components/Song';

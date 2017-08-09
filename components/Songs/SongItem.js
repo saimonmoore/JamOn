@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {Actions} from 'react-native-mobx';
+import { Actions } from 'react-native-router-flux';
 
 class SongItem extends Component {
   onPressSong() {

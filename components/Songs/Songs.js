@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { Actions } from 'react-native-mobx';
+import { Actions } from 'react-native-router-flux';
 import { inject, observer } from 'mobx-react/native';
 
 import SongItem from './SongItem';
