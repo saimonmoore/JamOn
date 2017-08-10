@@ -31,7 +31,7 @@ class SongItem extends Component {
     const goToSongScene = () => {
       console.log('Pressed go to song scene:', song);
       const { navigate } = this.props.navigation;
-      navigate('Song', { song, title: song.name });
+      navigate('Song', { song });
     };
 
     return (

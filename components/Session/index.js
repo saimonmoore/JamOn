@@ -13,6 +13,10 @@ import SessionPlayer from '../Session/Player';
 @observer
 @inject('sessions_store')
 class Session extends Component {
+  static navigationOptions = {
+    title: 'Session',
+  }
+
   @autobind deleteSession() {
     const session = this.props.session;
 

@@ -8,15 +8,16 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
 } from 'react-native';
-import { Provider } from 'mobx-react/native';
 import {
   addNavigationHelpers,
 } from 'react-navigation';
 
+import { observer } from 'mobx-react/native';
+
 import AppNavigator from './components/AppNavigator';
 import NavigationStore from './stores/navigation-store';
-import * as stores from './stores';
 
+@observer
 export default class JamOn extends Component {
   constructor(props, context) {
     super(props, context);
@@ -25,13 +26,11 @@ export default class JamOn extends Component {
 
   render() {
     return (
-      <Provider {...stores}>
-        <AppNavigator navigation={addNavigationHelpers({
-          dispatch: this.store.dispatch,
-          state: this.store.navigationState,
-        })}
-        />
-      </Provider>
+      <AppNavigator navigation={addNavigationHelpers({
+        dispatch: this.store.dispatch,
+        state: this.store.navigationState,
+      })}
+      />
     );
   }
 }

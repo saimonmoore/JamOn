@@ -60,7 +60,7 @@ class SongForm extends Component {
     const buttonLabel = song ? 'Update' : 'Add';
 
     return (
-      <View style={{flex: 1, paddingTop: 22}}>
+      <View style={{ flex: 1, paddingTop: 22 }}>
         <Form
           ref='songForm'
           onChange={this.handleFormChanges}

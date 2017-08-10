@@ -16,11 +16,13 @@ class Song extends Component {
     const { navigate } = this.props.navigation;
 
     if (song) {
-      navigate('Song', { song, title: song.name });
+      navigate('SongForm', { song });
     }
   }
 
   render() {
+    const { navigation } = this.props;
+
     return (
       <View style={{flex: 1, paddingTop: 22}}>
         <View>
@@ -41,7 +43,7 @@ class Song extends Component {
         <View>
           <Text style={{ textDecorationLine: 'underline', color: 'red' }}>JamOn Sessions</Text>
         </View>
-        <Sessions song={this.props.song} />
+        <Sessions song={this.props.song} navigation={navigation} />
       </View>
     );
   }

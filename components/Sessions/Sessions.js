@@ -33,7 +33,8 @@ class Sessions extends Component {
   render() {
     console.log('[Sessions] song: ', this.props.song);
     const song = this.props.song;
-    const { navigate } = this.props.navigation;
+    const { navigation } = this.props;
+    const { navigate } = navigation;
     const goToNewSession = () => navigate('SessionForm', { song, title: 'New Session' });
 
     this.updateDataSource();
@@ -42,7 +43,7 @@ class Sessions extends Component {
       <View style={{ flex: 1, paddingTop: 22, justifyContent: 'space-between' }}>
         <ListView
           dataSource={this.dataSource}
-          renderRow={rowData => <SessionItem session={rowData} />}
+          renderRow={rowData => <SessionItem session={rowData} navigation={navigation} />}
           enableEmptySections={true}
         />
         <View style={{ marginBottom: 20 }}>

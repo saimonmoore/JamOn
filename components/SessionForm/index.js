@@ -20,6 +20,10 @@ import SessionRecorder from '../Session/Recorder';
 @observer
 @inject('sessions_store')
 class SessionForm extends Component {
+  static navigationOptions = {
+    title: 'New Session',
+  }
+
   constructor(props) {
     super(props);
     this.state = {};

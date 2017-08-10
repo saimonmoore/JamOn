@@ -31,7 +31,9 @@ class Songs extends Component {
   }
 
   render() {
-    const { navigate } = this.props.navigation;
+    console.log('[Songs] ==========> props:', this.props);
+    const { navigation } = this.props;
+    const { navigate } = navigation;
     const goToNewSong = () => navigate('SongForm', { title: 'New Song' });
     this.updateDataSource();
 
@@ -39,7 +41,7 @@ class Songs extends Component {
       <View style={{ flex: 1, paddingTop: 22, justifyContent: 'space-between' }}>
         <ListView
           dataSource={this.dataSource}
-          renderRow={rowData => <SongItem song={rowData} />}
+          renderRow={rowData => <SongItem song={rowData} navigation={navigation} />}
           enableEmptySections={true}
         />
         <View style={{ marginBottom: 20 }}>
