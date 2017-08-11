@@ -11,9 +11,11 @@ import * as stores from '../stores';
 const SongFormObserver = observer(SongForm);
 
 class SongFormScreen extends Component {
-  static navigationOptions = {
-    title: 'New Song',
-  }
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    const title = params.song ? `Editing '${params.song.name}'` : 'New Song';
+    return { title };
+  };
 
   render() {
     const { navigation } = this.props;

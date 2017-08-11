@@ -27,7 +27,7 @@ class SongForm extends Component {
   @autobind addOrUpdateSong() {
     Keyboard.dismiss();
 
-    const song = this.props.song;
+    const song = this.song();
 
     if (song) {
       this.updateSong();
@@ -46,7 +46,7 @@ class SongForm extends Component {
 
   @autobind updateSong() {
     const store = this.props.songs_store;
-    const song = this.props.song;
+    const song = this.song();
     const formData = this.state.songForm;
     store.update(song, formData);
   }
@@ -55,8 +55,13 @@ class SongForm extends Component {
     this.setState({ songForm });
   }
 
+  song() {
+    const { params } = this.props.navigation.state;
+    return this.props.song || params.song;
+  }
+
   render() {
-    const song = this.props.song;
+    const song = this.song();
     const buttonLabel = song ? 'Update' : 'Add';
 
     return (
