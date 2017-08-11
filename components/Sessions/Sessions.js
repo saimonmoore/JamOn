@@ -43,7 +43,7 @@ class Sessions extends Component {
       <View style={{ flex: 1, paddingTop: 22, justifyContent: 'space-between' }}>
         <ListView
           dataSource={this.dataSource}
-          renderRow={rowData => <SessionItem session={rowData} navigation={navigation} />}
+          renderRow={rowData => <SessionItem session={rowData} song={song} navigation={navigation} />}
           enableEmptySections={true}
         />
         <View style={{ marginBottom: 20 }}>

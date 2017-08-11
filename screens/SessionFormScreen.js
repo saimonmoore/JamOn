@@ -11,9 +11,11 @@ import * as stores from '../stores';
 const SessionFormObserver = observer(SessionForm);
 
 class SessionFormScreen extends Component {
-  static navigationOptions = {
-    title: 'New Session',
-  }
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    const title = params.session ? `Editing session for '${params.song.name}'` : 'New Session';
+    return { title };
+  };
 
   render() {
     const { navigation } = this.props;

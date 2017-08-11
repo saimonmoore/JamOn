@@ -5,11 +5,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import moment from 'moment';
+
 class SessionItem extends Component {
   render() {
     const session = this.props.session;
+    const song = this.props.song;
+    const createdAt = moment.unix(session.createdAt).format('YY-MM-DD HH:mm:ss Z');
     const { navigate } = this.props.navigation;
-    const goToNewSessionScene = () => navigate('SessionForm', { title: 'New Session' });
+    const goToNewSessionScene = () => navigate('SessionForm', {});
 
     if (!session) {
       return (
@@ -21,16 +25,16 @@ class SessionItem extends Component {
       );
     }
 
-    const goToSessionScene = () => navigate('SessionForm', { session, title: session.tempo });
+    const goToSessionScene = () => navigate('Session', { session, song });
 
     return (
       <View>
         <TouchableOpacity onPress={goToSessionScene}>
           <View>
-            <Text>{session.tempo}</Text>
+            <Text>{session.duration} seconds @ {session.tempo} bpm - {createdAt}</Text>
           </View>
           <View>
-            <Text>{session.date}</Text>
+            <Text></Text>
           </View>
         </TouchableOpacity>
       </View>

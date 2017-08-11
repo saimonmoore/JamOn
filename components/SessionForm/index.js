@@ -19,10 +19,6 @@ import Uuid from '../../lib/uuid';
 @observer
 @inject('sessions_store')
 class SessionForm extends Component {
-  static navigationOptions = {
-    title: 'New Session',
-  }
-
   constructor(props) {
     super(props);
     this.state = {};
@@ -38,7 +34,7 @@ class SessionForm extends Component {
   @autobind addOrUpdateSession() {
     Keyboard.dismiss();
 
-    const session = this.props.session;
+    const session = this.session();
 
     if (session) {
       this.updateSession();
@@ -54,23 +50,20 @@ class SessionForm extends Component {
     const store = this.props.sessions_store;
     const createdAt = this.createdAt();
     const formData = this.state.sessionForm;
-    const song = this.props.song;
+    const song = this.song();
     Object.assign(formData, { createdAt, id: this.sessionId(), song_id: song.id });
-    console.log('[SessionForm#addSession] formData 2: ', formData);
 
     store.add(formData);
   }
 
   @autobind updateSession() {
     const store = this.props.sessions_store;
-    const session = this.props.session;
+    const session = this.session();
     const formData = this.state.sessionForm;
-    console.log('[SessionForm#updateSession] formData: ', formData);
     store.update(session, formData);
   }
 
   @autobind handleFormChanges(sessionForm) {
-    console.log('[SessionForm#handleFormChanges] sessionForm: ', sessionForm);
     this.setState({ sessionForm });
   }
 
@@ -83,9 +76,19 @@ class SessionForm extends Component {
     return uuid.generateV4();
   }
 
+  session() {
+    const { params } = this.props.navigation.state;
+    return this.props.session || params.session;
+  }
+
+  song() {
+    const { params } = this.props.navigation.state;
+    return this.props.song || params.song;
+  }
+
   render() {
-    const session = this.props.session;
-    const song = this.props.song;
+    const session = this.session();
+    const song = this.song();
 
     return (
       <View style={{ flex: 1, paddingTop: 22 }}>
