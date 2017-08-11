@@ -39,10 +39,10 @@ class Session extends Component {
     return (
       <View>
         <View>
-          <Text style={{ fontWeight: 'bold' }}>Beats per second: {session.bps}</Text>
+          <Text style={{ fontWeight: 'bold' }}>Tempo (bpm): {session.tempo}</Text>
         </View>
         <View>
-          <Text>Recorded on: {session.date}</Text>
+          <Text>Recorded on: {session.createdAt}</Text>
         </View>
 
         <SessionPlayer session={session} />

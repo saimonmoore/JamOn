@@ -17,15 +17,15 @@ class SongsStore {
 
   @action('SongsStore#add') add(song) {
     if (!song) return;
-    this.songs.set(song.name, song);
+    this.songs.set(song.id, song);
 
     LocalStorage.persistStore('songs', this.songs);
   }
 
   @action('SongsStore#update') update(song, attributes) {
     if (!song) return;
-    const currentSong = this.songs.get(song.name);
-    this.songs.set(song.name, Object.assign(currentSong, attributes));
+    const currentSong = this.songs.get(song.id);
+    this.songs.set(song.id, Object.assign(currentSong, attributes));
     LocalStorage.persistStore('songs', this.songs);
   }
 }

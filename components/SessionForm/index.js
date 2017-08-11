@@ -4,18 +4,17 @@ import {
   Button,
   Keyboard,
 } from 'react-native';
-
 import {
   Form,
   InputField,
 } from 'react-native-form-generator';
-
 import { inject, observer } from 'mobx-react/native';
-
 import autobind from 'autobind-decorator';
-import FlexiIcon from '../FlexiIcon';
 import moment from 'moment';
+
+import FlexiIcon from '../FlexiIcon';
 import SessionRecorder from '../Session/Recorder';
+import Uuid from '../../lib/uuid';
 
 @observer
 @inject('sessions_store')
@@ -53,16 +52,10 @@ class SessionForm extends Component {
 
   @autobind addSession() {
     const store = this.props.sessions_store;
-    const date = moment().format();
-    const timestamp = moment().format('X');
+    const createdAt = this.createdAt();
     const formData = this.state.sessionForm;
     const song = this.props.song;
-    const session_id = `session-${timestamp}`;
-    console.log('[SessionForm#addSession] song: ', this.song);
-    console.log('[SessionForm#addSession] state: ', this.state);
-    console.log('[SessionForm#addSession] date: ', date);
-    console.log('[SessionForm#addSession] formData 1: ', formData);
-    Object.assign(formData, { date, id: session_id, song_id: song.name });
+    Object.assign(formData, { createdAt, id: this.sessionId(), song_id: song.id });
     console.log('[SessionForm#addSession] formData 2: ', formData);
 
     store.add(formData);
@@ -81,6 +74,15 @@ class SessionForm extends Component {
     this.setState({ sessionForm });
   }
 
+  createdAt() {
+    return moment().format('X');
+  }
+
+  sessionId() {
+    const uuid = new Uuid();
+    return uuid.generateV4();
+  }
+
   render() {
     const session = this.props.session;
     const song = this.props.song;
@@ -94,9 +96,9 @@ class SessionForm extends Component {
         >
 
           <InputField
-            ref="bps"
-            placeholder="Beats per second"
-            value={session ? session.bps : ''}
+            ref="tempo"
+            placeholder="Tempo (bpm)"
+            value={session ? session.tempo : ''}
             iconLeft={<FlexiIcon name="text-format" size={20} style={{ color: '#793315' }} />}
           />
         </Form>

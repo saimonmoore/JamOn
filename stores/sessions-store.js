@@ -41,7 +41,7 @@ class SessionsStore {
   }
 
   getBySong(song) {
-    return this.getAsList().filter((session) => song.name === session.song_id);
+    return this.getAsList().filter((session) => song.id === session.song_id);
   }
 }
 

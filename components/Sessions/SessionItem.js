@@ -21,13 +21,13 @@ class SessionItem extends Component {
       );
     }
 
-    const goToSessionScene = () => navigate('SessionForm', { session, title: session.bps });
+    const goToSessionScene = () => navigate('SessionForm', { session, title: session.tempo });
 
     return (
       <View>
         <TouchableOpacity onPress={goToSessionScene}>
           <View>
-            <Text>{session.bps}</Text>
+            <Text>{session.tempo}</Text>
           </View>
           <View>
             <Text>{session.date}</Text>

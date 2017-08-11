@@ -12,7 +12,7 @@ import Sessions from '../Sessions';
 @observer
 class Song extends Component {
   @autobind editSong() {
-    const song = this.props.song;
+    const song = this.song();
     const { navigate } = this.props.navigation;
 
     if (song) {
@@ -20,19 +20,25 @@ class Song extends Component {
     }
   }
 
+  song() {
+    const { params } = this.props.navigation.state;
+    return this.props.song || params.song;
+  }
+
   render() {
     const { navigation } = this.props;
+    const song = this.song();
 
     return (
       <View style={{flex: 1, paddingTop: 22}}>
         <View>
-          <Text style={{ fontWeight: 'bold' }}>{this.props.song.name}</Text>
+          <Text style={{ fontWeight: 'bold' }}>{song.name}</Text>
         </View>
         <View>
-          <Text>{this.props.song.author}</Text>
+          <Text>{song.author}</Text>
         </View>
         <View>
-          <Text>{this.props.song.genre}</Text>
+          <Text>{song.genre}</Text>
         </View>
         <Button
           onPress={this.editSong}
@@ -43,7 +49,7 @@ class Song extends Component {
         <View>
           <Text style={{ textDecorationLine: 'underline', color: 'red' }}>JamOn Sessions</Text>
         </View>
-        <Sessions song={this.props.song} navigation={navigation} />
+        <Sessions song={song} navigation={navigation} />
       </View>
     );
   }
