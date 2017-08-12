@@ -25,7 +25,7 @@ class SessionForm extends Component {
   }
 
   @autobind onRecordingFinished(audioFileUrl, duration) {
-    const formData = this.state.sessionForm;
+    const formData = this.state.sessionForm || {};
     Object.assign(formData, { audioFileUrl, duration });
     console.log('[SessionForm#onRecordingFinished] formData: ', formData);
     this.addOrUpdateSession();
