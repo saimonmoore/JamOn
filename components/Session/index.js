@@ -7,6 +7,7 @@ import {
 import moment from 'moment';
 import { inject, observer } from 'mobx-react/native';
 import autobind from 'autobind-decorator';
+const RNFS = require('react-native-fs');
 
 import SessionPlayer from '../Session/Player';
 
@@ -15,6 +16,7 @@ import SessionPlayer from '../Session/Player';
 class Session extends Component {
   @autobind deleteSession() {
     const session = this.session();
+    const { goBack } = this.props.navigation;
 
     if (!session) {
       console.log('No session to delete!');
@@ -22,11 +24,19 @@ class Session extends Component {
     }
 
     const store = this.props.sessions_store;
-    store.delete(session);
-    // TODO: Delete audio file
+    this.deleteAudioFile(session.audioFileUrl, () => {
+      store.delete(session);
+      console.log('Deleted audio at:', session.audioFileUrl);
+      goBack();
+    });
+  }
 
-    const { goBack } = this.props.navigation;
-    goBack();
+  deleteAudioFile(path, onSuccess) {
+    return RNFS.unlink(path)
+      .then(onSuccess)
+      .catch((err) => {
+        console.log(err.message);
+      });
   }
 
   session() {
