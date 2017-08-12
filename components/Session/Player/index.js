@@ -11,22 +11,13 @@ import Sound from 'react-native-sound';
 import autobind from 'autobind-decorator';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#2b608a',
-  },
   controls: {
     justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  progressText: {
-    paddingTop: 50,
-    fontSize: 50,
-    color: '#fff',
+    flexDirection: 'row',
+    flex: -1,
   },
   button: {
-    padding: 20,
+    padding: 10,
   },
   disabledButtonText: {
     color: '#eee',
@@ -140,12 +131,10 @@ class SessionPlayer extends Component {
 
   render() {
     return (
-      <View style={styles.container} >
-        <View style={styles.controls} >
-          {this._renderButton('▶', this._play, !this.state.playing)}
-          {this._renderButton('⏸', this._pause, this.state.playing)}
-          {this._renderButton('⏹', this._stop, this.state.playing)}
-        </View>
+      <View style={styles.controls} >
+        {this._renderButton('▶', this._play, !this.state.playing)}
+        {this._renderButton('⏸', this._pause, this.state.playing)}
+        {this._renderButton('⏹', this._stop, this.state.playing)}
       </View>
     );
   }
