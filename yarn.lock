@@ -4120,6 +4120,10 @@ react-native-audio@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/react-native-audio/-/react-native-audio-3.2.2.tgz#0fcbda338c9cc85aabed595f9c762fa6eebbdb88"
 
+"react-native-audio@git+ssh://git@github.com/saimonmoore/react-native-audio.git#fix/upgrade-to-v0.47.1":
+  version "3.2.2"
+  resolved "git+ssh://git@github.com/saimonmoore/react-native-audio.git#e541b9c4385bfea10bf0f7f72cedf99f66af6459"
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
