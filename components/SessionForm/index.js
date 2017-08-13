@@ -35,6 +35,7 @@ class SessionForm extends Component {
     Keyboard.dismiss();
 
     const session = this.session();
+    const song = this.song();
 
     if (session) {
       this.updateSession();
@@ -42,8 +43,8 @@ class SessionForm extends Component {
       this.addSession();
     }
 
-    const { goBack } = this.props.navigation;
-    goBack();
+    const { navigate } = this.props.navigation;
+    navigate('Song', { song });
   }
 
   @autobind addSession() {

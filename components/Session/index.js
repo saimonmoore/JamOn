@@ -16,7 +16,8 @@ import SessionPlayer from '../Session/Player';
 class Session extends Component {
   @autobind deleteSession() {
     const session = this.session();
-    const { goBack } = this.props.navigation;
+    const song = this.song();
+    const { navigate } = this.props.navigation;
 
     if (!session) {
       console.log('No session to delete!');
@@ -27,7 +28,7 @@ class Session extends Component {
     this.deleteAudioFile(session.audioFileUrl, () => {
       store.delete(session);
       console.log('Deleted audio at:', session.audioFileUrl);
-      goBack();
+      navigate('Song', { song });
     });
   }
 
