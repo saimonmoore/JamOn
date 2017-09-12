@@ -21,7 +21,7 @@
 		"mobx-react": "^4.2.2",
 		"moment": "^2.18.1",
 		"react": "16.0.0-alpha.12",
-		"react-native": "0.47.1",
+		"react-native": "0.48.3",
 		"react-native-audio": "git+ssh://git@github.com/saimonmoore/react-native-audio.git#fix/upgrade-to-v0.47.1",
 		"react-native-form-generator": "^0.9.9",
 		"react-native-fs": "^2.5.1",
