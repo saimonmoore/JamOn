@@ -13,12 +13,16 @@ import { AudioRecorder, AudioUtils } from 'react-native-audio';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#2b608a',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   controls: {
     flex: -1,
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  progress: {
+    paddingTop: 20,
   },
   progressText: {
     paddingTop: 10,
@@ -32,8 +36,11 @@ const styles = StyleSheet.create({
     color: '#eee',
   },
   buttonText: {
-    fontSize: 20,
+    fontSize: 15,
     color: '#fff',
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
   },
   activeButtonText: {
     fontSize: 20,
@@ -206,9 +213,14 @@ class SessionRecorder extends Component {
 
     return (
       <View style={styles.controls}>
-        {this._renderButton('⏺', () => this._record(), recording)}
-        {this._renderButton('⏹', () => this._stop())}
-        <Text style={styles.progressText}>{ this.state.currentTime }s</Text>
+        <Text>Start recording:</Text>
+        <View style={styles.container}>
+          {this._renderButton('⏺', () => this._record(), recording)}
+          {this._renderButton('⏹', () => this._stop())}
+        </View>
+        <View style={styles.progress}>
+          <Text style={styles.progressText}>Recorded: { this.state.currentTime }s</Text>
+        </View>
       </View>
     );
   }
