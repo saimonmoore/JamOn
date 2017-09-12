@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
   View,
-  Button,
   Keyboard,
+  StyleSheet,
 } from 'react-native';
 import {
   Form,
-  InputField,
+  PickerField,
 } from 'react-native-form-generator';
 import { inject, observer } from 'mobx-react/native';
 import autobind from 'autobind-decorator';
@@ -15,13 +15,15 @@ import moment from 'moment';
 import FlexiIcon from '../FlexiIcon';
 import SessionRecorder from '../Session/Recorder';
 import Uuid from '../../lib/uuid';
+import Tempo from '../../lib/tempo';
 
 @observer
 @inject('sessions_store')
 class SessionForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    const session = this.session();
+    this.state = { selectedTempo: session ? session.tempo : 'unselected' };
   }
 
   @autobind onRecordingFinished(audioFileUrl, duration) {
@@ -65,7 +67,7 @@ class SessionForm extends Component {
   }
 
   @autobind handleFormChanges(sessionForm) {
-    this.setState({ sessionForm });
+    this.setState({ sessionForm, selectedTempo: sessionForm && sessionForm.tempo });
   }
 
   createdAt() {
@@ -87,29 +89,56 @@ class SessionForm extends Component {
     return this.props.song || params.song;
   }
 
+  renderRecorder() {
+    const song = this.song();
+    const sessionForm = this.state.sessionForm;
+    const tempoLabel = sessionForm && sessionForm.tempo;
+    const tempo = tempoLabel && Number.parseInt(tempoLabel, 10);
+    console.log('========> sessionForm:', sessionForm, tempoLabel, tempo);
+
+    if (tempo > 0) {
+      return (<SessionRecorder onFinished={this.onRecordingFinished} song={song} />);
+    }
+  }
+
   render() {
     const session = this.session();
-    const song = this.song();
+    const tempo = new Tempo();
+    const selectedTempo = this.state.selectedTempo;
+    console.log('=====> selectedTempo: ', selectedTempo);
+    const tempoOptions = tempo.asOptions();
 
     return (
-      <View style={{ flex: 1, paddingTop: 22 }}>
+      <View style={styles.container}>
         <Form
           ref="sessionForm"
           onChange={this.handleFormChanges}
           label="Session Info"
         >
 
-          <InputField
+          <PickerField
             ref="tempo"
-            placeholder="Tempo (bpm)"
-            value={session ? session.tempo : ''}
+            label="Tempo"
+            value={selectedTempo}
+            options={tempoOptions}
+            containerStyle={styles.picker}
             iconLeft={<FlexiIcon name="text-format" size={20} style={{ color: '#793315' }} />}
           />
+          {this.renderRecorder()}
         </Form>
-        <SessionRecorder onFinished={this.onRecordingFinished} song={song} />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 22,
+  },
+  picker: {
+    width: 150,
+  },
+});
 
 export default SessionForm;
